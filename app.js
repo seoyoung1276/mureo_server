@@ -15,6 +15,9 @@ const pool = mysql.createPool({
     database: 'mureo'
 });
 
+app.get('/', (req, res) => {
+    res.send('hello');
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
