@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mysql = require('mysql2');
+const app = express();
 // const session = require('express-session')
 // const bcrypt = require('bcrypt');
 // const SALT_ROUNDS = 10;  
@@ -14,6 +15,9 @@ const pool = mysql.createPool({
     database: 'mureo'
 });
 
+app.get('/', (req, res) => {
+    res.send('hello');
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
