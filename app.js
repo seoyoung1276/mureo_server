@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mysql = require('mysql2');
+const app = express();
 // const session = require('express-session')
 // const bcrypt = require('bcrypt');
 // const SALT_ROUNDS = 10;  
