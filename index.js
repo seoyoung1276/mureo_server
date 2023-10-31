@@ -55,33 +55,33 @@ app.post("/register", (req, res) => {
 })
 
 // 로그인 
-app.post("/login", (req, res) =>{
-    const {user_id, password} = req.body
-    console.log(user_id)
-    console.log(password)
-    db.query("select * from users where user_id = ?",
-    [user_id],
-    function(err, rows, fields){
-        if(rows.length === 0){
-            res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." })
-        }else{
-           const user = rows[0]
-           bcrypt.compare(password, rows[0].password, function(err, result){           
-            if(result) {
-                req.session.user = {
-                    user_id: user.user_id,
-                    user_name: user.user_name,
-                }
-                req.session.save();
-                res.json({ result : "로그인 성공"})
-           }else{
-            res.json({ result : "로그인 실패 (비번 틀림)"})
-           }
-        })
+// app.post("/login", (req, res) =>{
+//     const {user_id, password} = req.body
+//     console.log(user_id)
+//     console.log(password)
+//     db.query("select * from users where user_id = ?",
+//     [user_id],
+//     function(err, rows, fields){
+//         if(rows.length === 0){
+//             res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." })
+//         }else{
+//            const user = rows[0]
+//            bcrypt.compare(password, rows[0].password, function(err, result){           
+//             if(result) {
+//                 req.session.user = {
+//                     user_id: user.user_id,
+//                     user_name: user.user_name,
+//                 }
+//                 req.session.save();
+//                 res.json({ result : "로그인 성공"})
+//            }else{
+//             res.json({ result : "로그인 실패 (비번 틀림)"})
+//            }
+//         })
         
-        }
-    })
-})
+//         }
+//     })
+// })
 
 
 app.listen(port, () => {
