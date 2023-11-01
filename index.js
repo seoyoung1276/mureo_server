@@ -63,7 +63,7 @@ app.post("/login", (req, res) =>{
     [user_id],
     function(err, rows, fields){
         if(rows.length === 0){
-            res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." })
+            res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." }) //아이디 틀렸을 때
         }else{
            const user = rows[0]
            bcrypt.compare(password, rows[0].password, function(err, result){           
@@ -75,13 +75,15 @@ app.post("/login", (req, res) =>{
                 req.session.save();
                 res.json({ result : "로그인 성공"})
            }else{
-            res.json({ result : "로그인 실패 (비번 틀림)"})
+            res.json({ result : "로그인 실패 (비번 틀림)"}) // 비밀번호 틀렸을 때
            }
         })
         
         }
     })
 })
+
+//카테고리 만들기
 
 
 app.listen(port, () => {
