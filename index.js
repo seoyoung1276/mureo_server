@@ -86,6 +86,21 @@ app.post("/login", (req, res) =>{
     })
 })
 
+// 유저 정보 조회
+app.get('/users/:userno', (req, res) => {
+    const userNo = req.params.userno;
+    db.query(
+        'SELECT * FROM user WHERE user_no = ?',
+        [userNo],
+        (err, result) => {
+            if (err) {
+                res.json({result : err})
+            } else {
+                res.json(result);
+            }
+        });
+});
+
 //카테고리 만들기
 
 
