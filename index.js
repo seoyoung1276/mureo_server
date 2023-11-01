@@ -5,9 +5,12 @@ const session = require('express-session')
 const mysql = require('mysql2')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
+const corsMiddleware = require('./middlewares/cors');
 
 const port = 3000; 
 const app = express()
+
+app.use(corsMiddleware);
 
 app.use(bodyParser.json())
 app.use(session({
@@ -22,7 +25,7 @@ app.use(session({
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '1234',
+    password: '1234567890',
     database: 'mureo'
 });
 
