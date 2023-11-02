@@ -145,9 +145,9 @@ app.post('/interest/post',loginRequired, (req, res) => {
 })
 
 // 카테고리 아이디로 모든 글 조회
-app.get('/interest/post/:interestno', loginRequired, (req, res) => {
-    const interestNO = req.body.interestno
-    db.query('select * from interest where interest_no = ?',
+app.get('/interest/post/:interestno', (req, res) => {
+    const interestNO = req.params.interestno
+    db.query('select * from post where interest_no = ?',
     [interestNO],
     (err, rows, result) =>{
         if(err){
