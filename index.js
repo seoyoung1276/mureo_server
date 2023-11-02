@@ -125,7 +125,7 @@ app.get('/interest/:userno', (req, res) => {
         if (err) {
             res.json({result : err})
         } else {
-            res.json({result : "ok"});
+            res.json(result);
         }
     });
 })
