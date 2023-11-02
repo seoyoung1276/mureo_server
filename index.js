@@ -117,7 +117,7 @@ app.post('/interest', loginRequired, (req, res) => {
 })
 
 // 유저 아이디로 카테고리 조회하기
-app.get('/interest/:userno', (req, res) => {
+app.get('/interest/:userno', loginRequired, (req, res) => {
     const userNo = req.params.userno;
     db.query('SELECT * FROM interest WHERE user_no = ?', 
     [userNo],
@@ -130,6 +130,33 @@ app.get('/interest/:userno', (req, res) => {
     });
 })
 
+// 카테고리에 글 작성
+app.post('/interest/post',loginRequired, (req, res) => {
+    const param = [req.body.title, req.body.content, req.body.interest_no]
+    db.query('insert into post(title, content, interest_no) values (?,?,?)',
+    param,
+    (err, rows, fields) =>{
+        if (err){
+            res.json({result : err})
+        } else {
+            res.json({result : "ok"})
+        }
+    })
+})
+
+// 카테고리 아이디로 모든 글 조회
+app.get('/interest/post/:interestno', loginRequired, (req, res) => {
+    const interestNO = req.body.interestno
+    db.query('select * from interest where interest_no = ?',
+    [interestNO],
+    (err, rows, result) =>{
+        if(err){
+            res.json({result : err})
+        }else{
+            res.json({result : rows})
+        }
+    })
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
