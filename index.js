@@ -25,7 +25,7 @@ app.use(session({
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '1234567890',
+    password: '1234',
     database: 'mureo'
 });
 
@@ -66,7 +66,7 @@ app.post("/login", (req, res) =>{
     [user_id],
     function(err, rows, fields){
         if(rows.length === 0){
-            res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." }) //아이디 틀렸을 때
+            res.status(404).json({ reuslt: "존재하지 않는 사용자입니다." }) // 아이디 틀렸을 때
         }else{
            const user = rows[0]
            bcrypt.compare(password, rows[0].password, function(err, result){           
@@ -75,7 +75,7 @@ app.post("/login", (req, res) =>{
                     user_id: user.user_id,
                     user_name: user.user_name,
                 }
-                req.session.save();
+                req.session.save();  // 세션에 저장
                 res.json({ result : "로그인 성공"})
            }else{
             res.json({ result : "로그인 실패 (비번 틀림)"}) // 비밀번호 틀렸을 때
@@ -102,6 +102,33 @@ app.get('/users/:userno', (req, res) => {
 });
 
 //카테고리 만들기
+app.post('/interest', loginRequired, (req, res) => {
+    console.log(req.body)
+    const param = [req.body.user_no, req.body.interest_name, req.body.start_date, req.body.end_date, req.body.reason, req.body.color]
+    db.query('insert into interest(user_no, interest_name, start_date, end_date, reason, color) values (?,?,?,?,?,?)',
+    param, 
+    (err, rows, fields) => {
+        if(err) {
+            res.json({result : err})
+        } else {
+            res.json({result : "ok"})
+        }
+    })
+})
+
+// 유저 아이디로 카테고리 조회하기
+app.get('/interest/:userno', (req, res) => {
+    const userNo = req.params.userno;
+    db.query('SELECT * FROM interest WHERE user_no = ?', 
+    [userNo],
+    (err, result) => {
+        if (err) {
+            res.json({result : err})
+        } else {
+            res.json({result : "ok"});
+        }
+    });
+})
 
 
 app.listen(port, () => {
