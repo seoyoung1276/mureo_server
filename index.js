@@ -2,7 +2,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session') 
-const mysql = require('mysql2')
+const maria = require('mysql')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
 const corsMiddleware = require('./middlewares/cors');
@@ -22,9 +22,10 @@ app.use(session({
     }
 }))
 
-const db = mysql.createConnection({
+const db = maria.createConnection({
     host: 'localhost',
     user: 'root',
+    port: 3307,
     password: '1234',
     database: 'mureo'
 });
@@ -157,6 +158,8 @@ app.get('/interest/post/:interestno', (req, res) => {
         }
     })
 })
+
+// 팔로잉, 팔로우 
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
