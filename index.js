@@ -40,7 +40,6 @@ const loginRequired = function(req, res, next) {
 
 // 회원가입 - 이메일 유효성 체크랑 아이디 중복 검사는 없음 
 app.post("/register", (req, res) => {
-    console.log(req.body)
     const param = [req.body.user_name, req.body.user_id, req.body.password, req.body.email]
     // 해시 함수
     bcrypt.hash(param[2], SALT_ROUNDS, function(err, hash){
@@ -104,7 +103,6 @@ app.get('/users/:userno', (req, res) => {
 
 //카테고리 만들기
 app.post('/interest', loginRequired, (req, res) => {
-    console.log(req.body)
     const param = [req.body.user_no, req.body.interest_name, req.body.start_date, req.body.end_date, req.body.reason, req.body.color]
     db.query('insert into interest(user_no, interest_name, start_date, end_date, reason, color) values (?,?,?,?,?,?)',
     param, 
