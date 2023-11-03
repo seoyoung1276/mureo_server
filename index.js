@@ -72,7 +72,7 @@ app.post("/login", (req, res) =>{
            bcrypt.compare(password, rows[0].password, function(err, result){           
             if(result) {
                 req.session.user = {
-                    user_id: user.user_id,
+                    user_no: user.user_no,
                     user_name: user.user_name,
                 }
                 req.session.save();  // 세션에 저장
@@ -102,7 +102,7 @@ app.get('/users/:userno', (req, res) => {
 });
 
 //카테고리 만들기
-app.post('/interest', loginRequired, (req, res) => {
+app.post('/interest', (req, res) => {
     const param = [req.body.user_no, req.body.interest_name, req.body.start_date, req.body.end_date, req.body.reason, req.body.color]
     db.query('insert into interest(user_no, interest_name, start_date, end_date, reason, color) values (?,?,?,?,?,?)',
     param, 
@@ -116,7 +116,7 @@ app.post('/interest', loginRequired, (req, res) => {
 })
 
 // 유저 아이디로 카테고리 조회하기
-app.get('/interest/:userno', loginRequired, (req, res) => {
+app.get('/interest/:userno', (req, res) => {
     const userNo = req.params.userno;
     db.query('SELECT * FROM interest WHERE user_no = ?', 
     [userNo],
@@ -130,7 +130,7 @@ app.get('/interest/:userno', loginRequired, (req, res) => {
 })
 
 // 카테고리에 글 작성
-app.post('/interest/post',loginRequired, (req, res) => {
+app.post('/interest/post', (req, res) => {
     const param = [req.body.title, req.body.content, req.body.interest_no]
     db.query('insert into post(title, content, interest_no) values (?,?,?)',
     param,
