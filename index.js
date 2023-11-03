@@ -76,7 +76,8 @@ app.post("/login", (req, res) =>{
                     user_name: user.user_name,
                 }
                 req.session.save();  // 세션에 저장
-                res.json({ result : "로그인 성공"})
+                res.json({ result : "로그인 성공",
+                            user_no: user.user_no})
            }else{
             res.json({ result : "로그인 실패 (비번 틀림)"}) // 비밀번호 틀렸을 때
            }
