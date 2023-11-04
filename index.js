@@ -22,13 +22,22 @@ app.use(session({
     }
 }))
 
+// const db = maria.createConnection({
+//     host: 'svc.sel5.cloudtype.app',
+//     user: 'root',
+//     port: 31502,
+//     password: '1234',
+//     database: 'mureo'
+// });
+
 const db = maria.createConnection({
-    host: 'svc.sel5.cloudtype.app',
+    host: 'localhost',
     user: 'root',
-    port: 31502,
+    port: 3307,
     password: '1234',
     database: 'mureo'
 });
+
 
 const loginRequired = function(req, res, next) {
     if(req.session.user) {
@@ -159,15 +168,25 @@ app.get('/interest/post/:interestno', (req, res) => {
 })
 
 // 유저 검색
-app.get('/users/search',(req, res)=>{
-
+app.get('/users/:username',(req, res)=>{
+    const userName = req.params.username
+    db.query('SELECT * from user WHERE user_id = ?',
+    [userName],
+     (err, rows, result)=>{
+        if(err){
+            res.json({err})
+        }else{
+            res.json({result : rows})
+        }
+    })
 })
 
 // 팔로우 하기 
 app.post('/users/follow',(req, res)=>{
-    const { follower_id, following_id } = req.body
-    const query = `INSERT INTO follow (follower_id, following_id) VALUES (${follower_id}, ${following_id})`
-    db.query(query, (err, result) => {
+    const params = [req.body.follower_id, req.body.following_id]
+    db.query('INSERT INTO follow (follower_id, following_id) VALUES (?,?)',
+    params,
+     (err, result) => {
         if (err) {
             console.error(err)
             res.status(500).json({ result : err })
@@ -181,40 +200,38 @@ app.post('/users/follow',(req, res)=>{
 // 팔로워 목록 조회
 app.get('/followers/:userno', (req, res) => {
     const userno = req.params.userno;
-    const query = `SELECT u.* FROM user AS u 
-                   INNER JOIN follow AS f ON u.user_no = f.follower_id
-                   WHERE f.following_id = ${userno}`
-    db.query(query, (err, result) => {
-      if (err) {
-        console.error(err)
-        res.status(500).json({ result: err })
-      } else {
-        if (result.length > 0) {
-          res.status(200).json(result)
+    db.query('SELECT u.* FROM user AS u INNER JOIN follow AS f ON u.user_no = f.follower_id WHERE f.following_id = ?',
+    [userno], 
+    (err, result) => {
+        if (err) {
+            console.error(err)
+            res.status(500).json({ result: err })
         } else {
-          res.status(404).json({ message: "팔로워 없음" })
+            if (result.length > 0) {
+                res.status(200).json(result)
+            } else {
+                res.status(404).json({ message: "팔로워 없음" })
+            }
         }
-      }
     })
   })
   
 // 팔로잉 목록 조회
 app.get('/followings/:userno', (req, res) => {
     const userno = req.params.userno
-    const query = `SELECT u.* FROM user AS u 
-                   INNER JOIN follow AS f ON u.user_no = f.following_id
-                   WHERE f.follower_id = ${userno}`
-    db.query(query, (err, result) => {
-      if (err) {
-        console.error(err)
-        res.status(500).json({ result: err })
-      } else {
-        if (result.length > 0) {
-          res.status(200).json(result)
+    db.query('SELECT u.* FROM user AS u INNER JOIN follow AS f ON u.user_no = f.following_id WHERE f.follower_id = ?', 
+    [userno], 
+    (err, result) => {
+        if (err) {
+            console.error(err)
+            res.status(500).json({ result: err })
         } else {
-          res.status(404).json({ message: "팔로잉 없음" })
+            if (result.length > 0) {
+                res.status(200).json(result)
+            } else {
+                res.status(404).json({ message: "팔로잉 없음" })
+            }
         }
-      }
     })
   })
 
