@@ -171,7 +171,11 @@ app.get('/users/search/:username',(req, res)=>{
         if(err){
             res.json({err})
         }else{
-            res.json({result : rows})
+            if (result.length > 0) {
+                res.json(result)
+            } else {
+                res.json({ message: "해당하는 사용자가 없습니다." })
+            }
         }
     })
 })
