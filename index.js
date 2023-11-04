@@ -23,9 +23,9 @@ app.use(session({
 }))
 
 const db = maria.createConnection({
-    host: 'svc.sel5.cloudtype.app',
+    host: 'localhost',
     user: 'root',
-    port: 31502,
+    port: 3307,
     password: '1234',
     database: 'mureo'
 });
@@ -158,7 +158,50 @@ app.get('/interest/post/:interestno', (req, res) => {
     })
 })
 
-// 팔로잉, 팔로우 
+// 팔로우 하기 
+app.post('/follow',(req, res)=>{
+    const { follower_id, following_id } = req.body
+    const query = `INSERT INTO follow (follower_id, following_id) VALUES (${follower_id}, ${following_id})`
+    db.query(query, (err, result) => {
+        if (err) {
+            console.error(err)
+            res.status(500).json({ error: '팔로우 중 오류가 발생했습니다.' })
+        } else {
+            res.status(201).json({result: "ok"})
+        }
+    })
+})
+
+
+// 팔로워 목록 조회
+app.get('/followers/:userid', (req, res) => {
+    const userid = req.params.userid
+    const query = `SELECT follower_id FROM follow WHERE following_id = ${userid}`
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: '팔로워 조회 중 오류가 발생했습니다.' })
+      } else {
+        const follower_Ids = result.map(row => row.follower_id)
+        res.status(200).json(follower_Ids)
+      }
+    })
+  })
+  
+  // 팔로잉 목록 조회
+  app.get('/followings/:userid', (req, res) => {
+    const userid = req.params.userid
+    const query = `SELECT following_id FROM follow WHERE follower_id = ${userid}`
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error(err)
+        res.status(500).json({ result : err })
+      } else {
+        const followingIds = result.map(row => row.following_id)
+        res.status(200).json(followingIds)
+      }
+    })
+  })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
