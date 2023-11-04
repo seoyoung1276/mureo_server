@@ -22,21 +22,15 @@ app.use(session({
     }
 }))
 
-// const db = maria.createConnection({
-//     host: 'svc.sel5.cloudtype.app',
-//     user: 'root',
-//     port: 31502,
-//     password: '1234',
-//     database: 'mureo'
-// });
-
 const db = maria.createConnection({
-    host: 'localhost',
+    host: 'svc.sel5.cloudtype.app',
     user: 'root',
-    port: 3307,
+    port: 31502,
     password: '1234',
     database: 'mureo'
 });
+
+
 
 
 const loginRequired = function(req, res, next) {
@@ -168,10 +162,11 @@ app.get('/interest/post/:interestno', (req, res) => {
 })
 
 // 유저 검색
-app.get('/users/:username',(req, res)=>{
+app.get('/users/search/:username',(req, res)=>{
     const userName = req.params.username
-    db.query('SELECT * from user WHERE user_id = ?',
-    [userName],
+    const searchPattern = '%' + userName + '%';
+    db.query('SELECT * from user WHERE user_id like ?',
+    [searchPattern],
      (err, rows, result)=>{
         if(err){
             res.json({err})
