@@ -122,7 +122,7 @@ app.post('/interest', (req, res) => {
 // 유저 아이디로 카테고리 조회하기
 app.get('/interest/:userno', (req, res) => {
     const userNo = req.params.userno;
-    db.query('SELECT * FROM interest WHERE user_no = ?', 
+    db.query('SELECT * FROM interest WHERE user_no = ? ORDER BY start_date DESC', 
     [userNo],
     (err, result) => {
         if (err) {
