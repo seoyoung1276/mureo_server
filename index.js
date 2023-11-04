@@ -158,6 +158,22 @@ app.get('/interest/post/:interestno', (req, res) => {
     })
 })
 
+// 관심사 pk로 관심사 조회
+app.get('/interest/:interest_no/info', (req, res) => {
+    const interestNo = req.params.interest_no;
+    db.query(
+        'select * from interest where interest_no = ?',
+        [interestNo],
+        (err, result) => {
+            if (err) {
+                res.status(404).json({result : err})
+            } else {
+                res.json(result[0]);
+            }
+        }
+    )
+}) ;
+
 // 유저 검색
 app.get('/users/search/:username',(req, res)=>{
     const userName = req.params.username
