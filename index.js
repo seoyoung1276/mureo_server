@@ -165,7 +165,7 @@ app.post('/follow',(req, res)=>{
     db.query(query, (err, result) => {
         if (err) {
             console.error(err)
-            res.status(500).json({ error: '팔로우 중 오류가 발생했습니다.' })
+            res.status(500).json({ result : err })
         } else {
             res.status(201).json({result: "ok"})
         }
@@ -180,7 +180,7 @@ app.get('/followers/:userid', (req, res) => {
     db.query(query, (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).json({ error: '팔로워 조회 중 오류가 발생했습니다.' })
+        res.status(500).json({ result : err})
       } else {
         const follower_Ids = result.map(row => row.follower_id)
         res.status(200).json(follower_Ids)
