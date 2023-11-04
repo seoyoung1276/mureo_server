@@ -158,8 +158,13 @@ app.get('/interest/post/:interestno', (req, res) => {
     })
 })
 
+// 유저 검색
+app.get('/users/search',(req, res)=>{
+
+})
+
 // 팔로우 하기 
-app.post('/follow',(req, res)=>{
+app.post('/users/follow',(req, res)=>{
     const { follower_id, following_id } = req.body
     const query = `INSERT INTO follow (follower_id, following_id) VALUES (${follower_id}, ${following_id})`
     db.query(query, (err, result) => {
@@ -174,31 +179,41 @@ app.post('/follow',(req, res)=>{
 
 
 // 팔로워 목록 조회
-app.get('/followers/:userid', (req, res) => {
-    const userid = req.params.userid
-    const query = `SELECT follower_id FROM follow WHERE following_id = ${userid}`
+app.get('/followers/:userno', (req, res) => {
+    const userno = req.params.userno;
+    const query = `SELECT u.* FROM user AS u 
+                   INNER JOIN follow AS f ON u.user_no = f.follower_id
+                   WHERE f.following_id = ${userno}`
     db.query(query, (err, result) => {
       if (err) {
-        console.error(err);
-        res.status(500).json({ result : err})
+        console.error(err)
+        res.status(500).json({ result: err })
       } else {
-        const follower_Ids = result.map(row => row.follower_id)
-        res.status(200).json(follower_Ids)
+        if (result.length > 0) {
+          res.status(200).json(result)
+        } else {
+          res.status(404).json({ message: "팔로워 없음" })
+        }
       }
     })
   })
   
-  // 팔로잉 목록 조회
-  app.get('/followings/:userid', (req, res) => {
-    const userid = req.params.userid
-    const query = `SELECT following_id FROM follow WHERE follower_id = ${userid}`
+// 팔로잉 목록 조회
+app.get('/followings/:userno', (req, res) => {
+    const userno = req.params.userno
+    const query = `SELECT u.* FROM user AS u 
+                   INNER JOIN follow AS f ON u.user_no = f.following_id
+                   WHERE f.follower_id = ${userno}`
     db.query(query, (err, result) => {
       if (err) {
         console.error(err)
-        res.status(500).json({ result : err })
+        res.status(500).json({ result: err })
       } else {
-        const followingIds = result.map(row => row.following_id)
-        res.status(200).json(followingIds)
+        if (result.length > 0) {
+          res.status(200).json(result)
+        } else {
+          res.status(404).json({ message: "팔로잉 없음" })
+        }
       }
     })
   })
