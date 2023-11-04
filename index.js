@@ -30,9 +30,6 @@ const db = maria.createConnection({
     database: 'mureo'
 });
 
-
-
-
 const loginRequired = function(req, res, next) {
     if(req.session.user) {
         next()
@@ -135,8 +132,8 @@ app.get('/interest/:userno', (req, res) => {
 
 // 카테고리에 글 작성
 app.post('/interest/post', (req, res) => {
-    const param = [req.body.title, req.body.content, req.body.interest_no]
-    db.query('insert into post(title, content, interest_no) values (?,?,?)',
+    const param = [req.body.title, req.body.content, req.body.date, req.body.interest_no]
+    db.query('insert into post(title, content, date, interest_no) values (?,?,?,?)',
     param,
     (err, rows, fields) =>{
         if (err){
