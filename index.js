@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
 const corsMiddleware = require('./middlewares/cors');
 
-const port = 3000; 
+const port = 3001; 
 const app = express()
 
 app.use(corsMiddleware);
@@ -22,13 +22,22 @@ app.use(session({
     }
 }))
 
+// const db = maria.createConnection({
+//     host: 'svc.sel5.cloudtype.app',
+//     user: 'root',
+//     port: 31502,
+//     password: '1234',
+//     database: 'mureo'
+// });
+
 const db = maria.createConnection({
-    host: 'svc.sel5.cloudtype.app',
+    host: 'localhost',
     user: 'root',
-    port: 31502,
+    port: 3307,
     password: '1234',
     database: 'mureo'
 });
+
 
 const loginRequired = function(req, res, next) {
     if(req.session.user) {
@@ -203,10 +212,26 @@ app.post('/users/follow',(req, res)=>{
             console.error(err)
             res.status(500).json({ result : err })
         } else {
-            res.status(201).json({result: "ok"})
+            res.status(201).json({result: "팔로우 성공"})
         }
     })
 })
+
+// 팔로우 취소
+app.delete('/users/unfollow', (req, res) => {
+    const params = [req.body.follower_id, req.body.following_id]
+    db.query('DELETE FROM follow WHERE follower_id = ? AND following_id = ?',
+        params,
+        (err, result) => {
+            if (err) {
+                console.error(err)
+                res.status(500).json({ result: err });
+            } else {
+                res.status(200).json({ result: "팔로우 취소 완료" })
+            }
+        }
+    );
+});
 
 
 // 팔로워 목록 조회
