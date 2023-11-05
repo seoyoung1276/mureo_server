@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
 const corsMiddleware = require('./middlewares/cors');
 
-const port = 3001; 
+const port = 3000; 
 const app = express()
 
 app.use(corsMiddleware);
