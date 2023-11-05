@@ -194,7 +194,7 @@ app.get('/users/search/:username',(req, res)=>{
             res.json({err})
         }else{
             if (result.length > 0) {
-                res.json(result)
+                res.json({result : rows})
             } else {
                 res.json({ message: "해당하는 사용자가 없습니다." })
             }
@@ -270,7 +270,25 @@ app.get('/followings/:userno', (req, res) => {
             }
         }
     })
-  })
+})
+
+// 팔로잉 여부
+app.get('/isFollowing', (req, res) => {
+    const params = [req.body.follower_id, req.body.following_id]
+    db.query('select * from follow where follower_id = ? and following_id = ?',
+    params,
+    (err, result) => {
+        if(err) {
+            res.status(500).json({result : err})
+        } else {
+            if(result.length > 0){
+                res.status(200).json({ result : true})
+            } else {
+                res.status(200).json({ result : false})
+            }
+        }
+    })
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
