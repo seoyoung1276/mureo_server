@@ -279,7 +279,7 @@ app.get('/followings/:userno', (req, res) => {
 })
 
 // 팔로잉 여부
-app.post('users/isFollowing', (req, res) => {
+app.post('/isFollowing', (req, res) => {
     const params = [req.body.follower_id, req.body.following_id]
     db.query('select * from follow where follower_id = ? and following_id = ?',
     params,
