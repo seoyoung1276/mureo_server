@@ -22,10 +22,18 @@ app.use(session({
     }
 }))
 
+// const db = maria.createConnection({
+//     host: 'svc.sel5.cloudtype.app',
+//     user: 'root',
+//     port: 31502,
+//     password: '1234',
+//     database: 'mureo'
+// });
+
 const db = maria.createConnection({
-    host: 'svc.sel5.cloudtype.app',
+    host: 'localhost',
     user: 'root',
-    port: 31502,
+    port: 3307,
     password: '1234',
     database: 'mureo'
 });
@@ -176,7 +184,7 @@ app.get('/interest/:interest_no/info', (req, res) => {
 
 // 관심사 그만 좋아하기
 app.patch('/stop/:interestno', (req, res)=>{
-    const param = [req.params.interestno, req.body.end_date]
+    const param = [req.body.end_date, req.params.interestno]
     db.query('UPDATE interest set end_date = ? WHERE interest_no = ?', 
     param,
     (err, rows, result)=>{
