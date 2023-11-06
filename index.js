@@ -22,18 +22,10 @@ app.use(session({
     }
 }))
 
-// const db = maria.createConnection({
-//     host: 'svc.sel5.cloudtype.app',
-//     user: 'root',
-//     port: 31502,
-//     password: '1234',
-//     database: 'mureo'
-// });
-
 const db = maria.createConnection({
-    host: 'localhost',
+    host: 'svc.sel5.cloudtype.app',
     user: 'root',
-    port: 3307,
+    port: 31502,
     password: '1234',
     database: 'mureo'
 });
