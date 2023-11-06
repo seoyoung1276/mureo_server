@@ -30,7 +30,6 @@ const db = maria.createConnection({
     database: 'mureo'
 });
 
-
 const loginRequired = function(req, res, next) {
     if(req.session.user) {
         next()
@@ -174,6 +173,21 @@ app.get('/interest/:interest_no/info', (req, res) => {
         }
     )
 }) ;
+
+// 관심사 그만 좋아하기
+app.patch('/stop/:interestno', (req, res)=>{
+    const param = [req.params.interestno, req.body.end_date]
+    db.query('UPDATE interest set end_date = ? WHERE interest_no = ?', 
+    param,
+    (err, rows, result)=>{
+        if(err){
+            res.json({ reuslt : err})
+        } else {
+            res.json({ result : "ok"})
+        }
+    })
+})
+
 
 // 유저 검색
 app.get('/users/search/:username',(req, res)=>{
