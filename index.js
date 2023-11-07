@@ -6,11 +6,20 @@ const maria = require('mysql')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
 const corsMiddleware = require('./middlewares/cors');
+const cors = require('cors');
 
 const port = 3000; 
 const app = express()
 
-app.use(corsMiddleware);
+var corsOptions = {
+    origin: 'http://127.0.0.1:5501',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+  app.use(cors({
+    // origin: '*'
+    origin: 'http://127.0.0.1:5501'
+  }));
 
 app.use(bodyParser.json())
 app.use(session({
@@ -226,6 +235,7 @@ app.post('/users/follow',(req, res)=>{
 // 팔로우 취소
 app.delete('/users/unfollow', (req, res) => {
     const params = [req.body.follower_id, req.body.following_id]
+    console.log(params)
     db.query('DELETE FROM follow WHERE follower_id = ? AND following_id = ?',
         params,
         (err, result) => {
