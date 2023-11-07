@@ -5,21 +5,20 @@ const session = require('express-session')
 const maria = require('mysql')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
-const corsMiddleware = require('./middlewares/cors');
 const cors = require('cors');
 
 const port = 3000; 
 const app = express()
 
-// var corsOptions = {
-//     origin: 'http://127.0.0.1:5501',
-//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-//   }
+const whitelist = ['https://port-0-mureo-server-jvpb2mloi62iyf.sel5.cloudtype.app', 'http://127.0.0.1:5501']
 
-//   app.use(cors({
-//     // origin: '*'
-//     origin: 'http://127.0.0.1:5501'
-//   }));
+const corsOptions = {
+    origin: whitelist,
+    credentials: true,
+    optionsSuccessStatus: 204
+  };
+
+app.use(cors(corsOptions))
 
 app.use(bodyParser.json())
 app.use(session({

@@ -1,3 +1,8 @@
-const cors = require('cors');
+// const cors = require('cors');
 
-module.exports = cors();
+// const corsOptions = {
+//     origin: 'https://mureo.netlify.app/',
+//     credentials: true
+// }
+
+// module.exports = cors();
