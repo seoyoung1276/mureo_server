@@ -11,15 +11,15 @@ const cors = require('cors');
 const port = 3000; 
 const app = express()
 
-var corsOptions = {
-    origin: 'http://127.0.0.1:5501',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// var corsOptions = {
+//     origin: 'http://127.0.0.1:5501',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
 
-  app.use(cors({
-    // origin: '*'
-    origin: 'http://127.0.0.1:5501'
-  }));
+//   app.use(cors({
+//     // origin: '*'
+//     origin: 'http://127.0.0.1:5501'
+//   }));
 
 app.use(bodyParser.json())
 app.use(session({
