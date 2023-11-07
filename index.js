@@ -253,7 +253,7 @@ app.get('/followers/:userno', (req, res) => {
             if (result.length > 0) {
                 res.status(200).json(result)
             } else {
-                res.json({ message: "0" })
+                res.json([])
             }
         }
     })
@@ -272,7 +272,7 @@ app.get('/followings/:userno', (req, res) => {
             if (result.length > 0) {
                 res.status(200).json(result)
             } else {
-                res.json({ message: "0" })
+                res.json([])
             }
         }
     })
