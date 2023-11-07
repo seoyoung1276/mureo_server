@@ -253,7 +253,7 @@ app.get('/followers/:userno', (req, res) => {
             if (result.length > 0) {
                 res.status(200).json(result)
             } else {
-                res.status(404).json({ message: "팔로워 없음" })
+                res.json({ message: "0" })
             }
         }
     })
@@ -272,7 +272,7 @@ app.get('/followings/:userno', (req, res) => {
             if (result.length > 0) {
                 res.status(200).json(result)
             } else {
-                res.status(404).json({ message: "팔로잉 없음" })
+                res.json({ message: "0" })
             }
         }
     })
