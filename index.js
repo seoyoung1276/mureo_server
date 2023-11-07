@@ -10,7 +10,7 @@ const cors = require('cors');
 const port = 3000; 
 const app = express()
 
-const whitelist = ['https://port-0-mureo-server-jvpb2mloi62iyf.sel5.cloudtype.app', 'http://127.0.0.1:5501']
+const whitelist = ['https://mureo.netlify.app/', 'http://127.0.0.1:5501']
 
 const corsOptions = {
     origin: whitelist,
