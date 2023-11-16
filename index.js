@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10 
 const cors = require('cors');
 
-const port = 3000; 
+const port = 3001; 
 const app = express()
 
 const whitelist = ['https://mureo.netlify.app', 'http://127.0.0.1:5501']
