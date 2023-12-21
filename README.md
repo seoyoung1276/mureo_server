@@ -1,5 +1,5 @@
  # 🐟 무러 
-물고기가 다양한 바다로 헤엄치는 것처럼, 계속 이동하는 나의 관심사들을 기록하고 공유하는 웹 서비스
+> 물고기가 다양한 바다로 헤엄치는 것처럼, 계속 이동하는 나의 관심사들을 기록하고 공유하는 웹 서비스
 
 ### 서비스 기능
 - 관심사 기록, 등록
@@ -23,9 +23,12 @@
 <br>
 
 # 🎬 Getting Started
-1. [mureo.netlify.app/](https://mureo.netlify.app/) 에 접속하여 회원가입, 로그인 후 서비스를 이용한다
+`현재 서버 배포 중단 상태입니다. 죄송합니다. 🥺`
+1. ~[mureo.netlify.app/](https://mureo.netlify.app/)~ 에 접속하여 회원가입, 로그인 후 서비스를 이용한다
    - 크롬 브라우저에서 실행해주세요 😣
-3. 해당 리포지토리를 클론하고, 루트에 있는 index.html을 실행시킨다
+3. ~해당 리포지토리를 클론하고, 루트에 있는 index.html을 실행시킨다~
+
+
 <br>
 
 # 📚 Languages & Frameworks
@@ -46,5 +49,5 @@
 <br>
 
 # 👶🏻 Project Members
-- [이서영](https://github.com/seoyoung1276)
-- [황혜경](https://github.com/hyeg0121)
+- [이서영](https://github.com/seoyoung1276) : 익스프레스 서버 개발
+- [황혜경](https://github.com/hyeg0121) : 프론트엔드 개발
